@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Update the system
-sudo yum update -y
+sudo apt update -y && sudo apt upgrade -y
 
 # Install wget
-sudo yum install wget -y
+sudo apt install wget -y
 
 # Install Prometheus
 wget https://github.com/prometheus/prometheus/releases/download/v2.37.0/prometheus-2.37.0.linux-amd64.tar.gz
@@ -42,8 +42,13 @@ sudo systemctl start prometheus
 sudo systemctl enable prometheus
 
 # Install Grafana
-sudo amazon-linux-extras install epel -y
-sudo yum install grafana -y
+# Add Grafana GPG key and repository
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+
+# Update package list and install Grafana
+sudo apt update -y
+sudo apt install grafana -y
 
 # Start and enable Grafana service
 sudo systemctl start grafana-server
@@ -53,3 +58,4 @@ sudo systemctl enable grafana-server
 echo "Installation complete. Access Prometheus at http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):9090"
 echo "Access Grafana at http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):3000"
 echo "Default Grafana login is admin/admin"
+
