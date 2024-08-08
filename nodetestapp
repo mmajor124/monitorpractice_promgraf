@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Update the system
-sudo yum update -y
+sudo apt update -y
+sudo apt upgrade -y
 
 # Install Node.js and npm
-curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
-sudo yum install -y nodejs
+curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt install -y nodejs
 
 # Create a directory for the application
 sudo mkdir -p /opt/prometheus-updater
