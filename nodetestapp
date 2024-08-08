@@ -33,7 +33,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+const port = 4000;  // Changed port to 4000
 
 app.use(express.json());
 
@@ -116,5 +116,5 @@ sudo systemctl start prometheus-updater
 
 # Print the public IP address
 echo "Installation complete. The Prometheus Config Updater is now running as a service."
-echo "You can send POST requests to http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):3000/add-target"
-echo "Example: curl -X POST -H \"Content-Type: application/json\" -d '{\"job\": \"new_job\", \"target\": \"localhost:8080\"}' http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):3000/add-target"
+echo "You can send POST requests to http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):4000/add-target"
+echo "Example: curl -X POST -H \"Content-Type: application/json\" -d '{\"job\": \"new_job\", \"target\": \"localhost:8080\"}' http://$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4):4000/add-target"
