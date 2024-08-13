@@ -26,4 +26,4 @@ scrape_configs:
   # Scrape configuration for monitoring EC2 instance running node_exporter
   - job_name: "ec2_node_exporter"
     static_configs:
-      - targets: ["107.22.137.61:9100"]
+      - targets: ["localhost:9100"]
