@@ -1,4 +1,4 @@
-# Prometheus, Grafana, and Node.js Updater Setup on Amazon EC2
+# Prometheus, Grafana, and Node Exporter Setup on Amazon Ubuntu EC2
 
 This README provides step-by-step instructions for setting up Prometheus, Grafana, and a Node.js application for updating Prometheus configurations on an Amazon EC2 instance.
 
