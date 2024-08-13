@@ -41,7 +41,7 @@ Before installing the applications, you need to configure your EC2 security grou
    ```
    sudo ./promgraf.sh
    ```
-7. Wait for the installation to complete. The script will print the URLs for accessing Prometheus and Grafana.
+7. Wait for the installation to complete. The script will print the URLs for accessing Prometheus and Grafana.  Make sure to check the status of Prometheus and Grafana before proceeding to next step.  The status commands are below.
 
 ## Step 3: Install Node Exporter
 
@@ -49,7 +49,7 @@ Before installing the applications, you need to configure your EC2 security grou
    ```
    nano nodex.sh
    ```
-2. Copy and paste the contents of the Node.js application installation script into this file
+2. Copy and paste the contents of the Node.js HTTP Generator installation script into this file
 3. Save and exit the file
 4. Make the script executable:
    ```
@@ -64,7 +64,7 @@ Before installing the applications, you need to configure your EC2 security grou
 ## Accessing the Applications
 
 - Prometheus: http://[Your-EC2-Public-IP]:9090
-- Grafana: http://[Your-EC2-Public-IP]:3000 (default login is admin/admin)
+- Grafana: http://[Your-EC2-Public-IP]:3000 (default login is admin/admin) You do not have to create a new account, you will have the option to skip after you type in admin/admin.  
 - Node Exporter: http://[Your-EC2-Public-IP]:9100/add-target (POST requests only)
 
 ## Troubleshooting
