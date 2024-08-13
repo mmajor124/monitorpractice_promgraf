@@ -66,6 +66,7 @@ Before installing the applications, you need to configure your EC2 security grou
 - Prometheus: http://[Your-EC2-Public-IP]:9090
 - Grafana: http://[Your-EC2-Public-IP]:3000 (default login is admin/admin) You do not have to create a new account, you will have the option to skip after you type in admin/admin.  
 - Node Exporter: http://[Your-EC2-Public-IP]:9100/add-target (POST requests only)
+- You can also use localhost:port 
 
 ## Troubleshooting
 
