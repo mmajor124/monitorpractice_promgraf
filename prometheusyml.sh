@@ -5,7 +5,7 @@ global:
 scrape_configs:
   - job_name: 'http_traffic_generator'
     static_configs:
-      - targets: ['ec2publicip:4000']
+      - targets: ['localhost:4000']
 
   - job_name: 'prometheus'
     static_configs:
@@ -13,4 +13,4 @@ scrape_configs:
 
   - job_name: 'node_exporter'
     static_configs:
-      - targets: ['ec2publicip:9100']
+      - targets: ['localhost:9100']
