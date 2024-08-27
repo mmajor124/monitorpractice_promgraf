@@ -1,0 +1,137 @@
+Certainly! Here’s a README file tailored for setting up a Node Exporter on an AWS Ubuntu EC2 instance to collect metrics from another EC2 instance using Prometheus.
+
+---
+
+# Node Exporter Setup on AWS Ubuntu EC2
+
+This guide walks you through the steps to set up a Node Exporter on an Ubuntu EC2 instance in AWS to collect metrics from another EC2 instance using Prometheus.
+
+## Prerequisites
+
+- Two AWS Ubuntu EC2 instances:
+  - **Host EC2**: Where Prometheus is installed and running.
+  - **Target EC2**: The instance you want to monitor using Node Exporter.
+- SSH access to both instances.
+- Basic knowledge of AWS, EC2, and Prometheus.
+
+## Steps
+
+### 1. Set Up the Target EC2 Instance for Node Exporter
+
+1. **Launch the Target EC2 Instance:**
+   - Ensure you have an Ubuntu EC2 instance running that you want to monitor.
+
+2. **Access the Target EC2 Instance:**
+   - SSH into the target EC2 instance using the following command:
+     ```bash
+     ssh -i /path/to/your-key.pem ubuntu@<Target-EC2-IP-Address>
+     ```
+
+### 2. Install Node Exporter on the Target EC2 Instance
+
+1. **Download Node Exporter:**
+   ```bash
+   wget https://github.com/prometheus/node_exporter/releases/download/v1.6.1/node_exporter-1.6.1.linux-amd64.tar.gz
+   ```
+
+2. **Extract the Archive:**
+   ```bash
+   tar -xvf node_exporter-1.6.1.linux-amd64.tar.gz
+   ```
+
+3. **Move the Binary:**
+   ```bash
+   sudo mv node_exporter-1.6.1.linux-amd64/node_exporter /usr/local/bin/
+   ```
+
+4. **Create a Systemd Service File:**
+   - Create the service file for Node Exporter by running:
+     ```bash
+     sudo nano /etc/systemd/system/node_exporter.service
+     ```
+   - Add the following content to the file:
+     ```ini
+     [Unit]
+     Description=Node Exporter
+     Wants=network-online.target
+     After=network-online.target
+
+     [Service]
+     User=nobody
+     ExecStart=/usr/local/bin/node_exporter
+
+     [Install]
+     WantedBy=default.target
+     ```
+
+5. **Start and Enable Node Exporter:**
+   - Reload systemd, start the service, and enable it to start on boot:
+     ```bash
+     sudo systemctl daemon-reload
+     sudo systemctl start node_exporter
+     sudo systemctl enable node_exporter
+     ```
+
+### 3. Open the Node Exporter Port on the Target EC2 Instance
+
+1. **Modify Security Groups:**
+   - In the AWS Management Console, modify the security group associated with the target EC2 instance to allow inbound traffic on port `9100`.
+
+### 4. Configure Prometheus on the Host EC2 to Scrape Metrics from the Target EC2 Instance
+
+1. **SSH into the Host EC2 Instance:**
+   - Access your host EC2 instance where Prometheus is running:
+     ```bash
+     ssh -i /path/to/your-key.pem ubuntu@<Host-EC2-IP-Address>
+     ```
+
+2. **Edit the Prometheus Configuration File:**
+   - Open the Prometheus configuration file (`prometheus.yml`) for editing:
+     ```bash
+     sudo nano /etc/prometheus/prometheus.yml
+     ```
+   - Add a new job for scraping the Node Exporter metrics:
+     ```yaml
+     scrape_configs:
+       - job_name: 'node_exporter_target'
+         static_configs:
+           - targets: ['<Target-EC2-IP-Address>:9100']
+     ```
+   - Save and exit the file.
+
+3. **Restart Prometheus:**
+   - Apply the changes by restarting Prometheus:
+     ```bash
+     sudo systemctl restart prometheus
+     ```
+
+### 5. Verify Metrics Collection from the Target EC2 Instance
+
+1. **Access Prometheus Web UI:**
+   - In a web browser, navigate to the Prometheus web interface using the following URL:
+     ```
+     http://<Host-EC2-IP-Address>:9090
+     ```
+
+2. **Check Target Status:**
+   - Go to `Status > Targets` in the Prometheus UI to verify that the Node Exporter target (the target EC2 instance) is up and being scraped successfully.
+
+### 6. (Optional) Visualize Metrics in Grafana
+
+1. **Add Prometheus as a Data Source:**
+   - In Grafana, add your Prometheus server as a data source.
+
+2. **Create Dashboards:**
+   - Use Node Exporter metrics to create dashboards for monitoring your target EC2 instance.
+
+### 7. (Optional) Monitoring and Alerting
+
+1. **Set Up Alerts in Prometheus:**
+   - Configure alert rules in Prometheus based on Node Exporter metrics for proactive monitoring.
+
+2. **Integrate Alertmanager:**
+   - If you have an Alertmanager setup, configure it to send alerts based on Prometheus triggers.
+
+---
+
+This README file should guide you through the process of setting up Node Exporter on a target EC2 instance and configuring Prometheus on another EC2 instance to scrape and monitor its metrics.
