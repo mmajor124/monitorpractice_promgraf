@@ -74,12 +74,12 @@ Before installing the applications, you need to configure your EC2 security grou
   ```
   sudo systemctl status prometheus
   sudo systemctl status grafana-server
-  sudo systemctl status prometheus-updater
+ 
   ```
 - Check the application logs for any error messages:
   ```
   sudo journalctl -u prometheus
   sudo journalctl -u grafana-server
-  sudo journalctl -u prometheus-updater
+ 
   ```
 
